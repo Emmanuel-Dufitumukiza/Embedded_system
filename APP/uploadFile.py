@@ -1,0 +1,22 @@
+import requests
+import csv
+
+
+def readFile(file):
+    jsonArray = []
+    with open(file, encoding='utf-8') as csvf:
+        csvReader = csv.DictReader(csvf)
+        for row in csvReader:
+            jsonArray.append(row)
+    return jsonArray
+
+if __name__ == '__main__':
+    while True:
+            f = open("transactions.txt", "a")
+            f.write("\n")
+            f.close()
+            data = readFile("transactions.txt")
+            res = requests.post(
+                'http://localhost:7000/api/upload', json=data)
+            if res.ok:
+                print("Data uploaded")
